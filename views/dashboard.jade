@@ -1,0 +1,78 @@
+doctype 5
+html
+	head
+	title Twitter Stock Dashboard
+	// if lt IE  script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js') 
+	link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		div#wrapper
+			div#headerwrap
+				div#header
+					h1 Twitter Stock Dashboard
+					div.fleft 
+						@#{uname}
+					div.fright 
+						a(href='/logout') Log out
+						
+			div#navigationwrap
+				div#navigation
+					form(id="search", method="POST", action="")
+						div.fleft
+							input.search-box(type="text", name="symbol")
+						div.fleft
+							input.styled-button(type="submit", value="Search")
+			
+			- if (ticker.company)
+				div#titlewrap
+					div#title
+						p.column-title #{ticker.company}
+			
+			if error
+				div#errorwrap
+					div#error
+						p #{error}
+			
+			
+			- if (ticker.company)
+				div#leftcolumnwrap
+					div#leftcolumn
+						p.column-title Stock Ticker
+						table
+							//Should be iterations
+							each val, key in ticker
+								tr
+									td.ticker-index #{key}
+									td.ticker-data #{val}
+								
+				div#contentwrap
+					div#content
+						p.column-title Tweets
+						//Should be iterations
+						
+						if tweets
+							each t in tweets
+								div.tweet
+									div.content
+										div.stream-item-header
+											small.time
+												span #{t.created_at}
+											img.avatar(src="#{t.user.profile_image_url}")
+											a.account-group(href="https://twitter.com/#{t.user.screen_name}", target="_blank")
+												strong.fullname #{t.user.name}
+												span &nbsp;&nbsp;&nbsp;
+												span.username
+													b @#{t.user.screen_name}
+										
+										p #{t.text}
+ 
+							div.spacer
+						else
+							p No tweets found.
+			
+			div#footerwrap
+				div#footer
+					p By @CesarReyesOrtiz
+			
+					
+					
+						
